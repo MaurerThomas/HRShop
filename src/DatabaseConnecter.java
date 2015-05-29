@@ -1,35 +1,46 @@
 import java.sql.*;
 
+
 /**
  * Created by Thomas on 29-5-2015.
  */
 public class DatabaseConnecter {
 
     public static final String query = "SELECT * FROM product";
-    public static void main(String[] args) {
+    private String url = "jdbc:mysql://localhost:3306/";
+    private String dbName = "hrshop";
+    private String driver = "com.mysql.jdbc.Driver";
+    private String userName = "root";
+    private String password = "";
+    private Connection connection;
 
+    public DatabaseConnecter() {
 
+        connect();
+
+    }
+
+    public void connect(){
         try {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/hrshop", "root", "");
+            Class.forName(driver).newInstance();
+            connection = DriverManager.getConnection(url + dbName , userName, password);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()){
-                System.out.println("Balance is:" + resultSet);
-            }
-
-        } catch (SQLException e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
 
 
+    }
 
+    public void disconnect(){
+
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
+
 }
