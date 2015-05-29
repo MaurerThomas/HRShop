@@ -14,11 +14,6 @@ public class DatabaseConnecter {
     private String password = "";
     private Connection connection;
 
-    public DatabaseConnecter() {
-
-        connect();
-
-    }
 
     public void connect(){
         try {
@@ -29,7 +24,6 @@ public class DatabaseConnecter {
         }catch (Exception e){
             e.printStackTrace();
         }
-
 
     }
 
