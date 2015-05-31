@@ -30,12 +30,14 @@ public class DatabaseAccessObject {
         return null;
     }
 
-    public void update(String sql, Connection connection) {
+    public void update(String sql, Connection connection, boolean dirty) {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.execute();
             stmt.close();
-            connection.commit();
+            if(dirty) {
+                connection.commit();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {

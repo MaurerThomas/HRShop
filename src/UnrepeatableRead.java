@@ -49,7 +49,7 @@ public class UnrepeatableRead {
                     } catch (InterruptedException e) {
                     }
                     System.out.println("write");
-                    person2.writeDirty();
+                    person2.writeUnrepeatable();
                 }
             }
         }, "Thread 2").start();

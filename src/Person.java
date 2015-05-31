@@ -23,8 +23,16 @@ public class Person {
 
         String wquery = "Update Product set totaal_aantal = ";
         ArrayList<Integer> aantal = dao.read(rquery,dao.connect());
-        dao.update(wquery + (aantal.get(0)+10) + " Where product_ID = 1",dao.connect());
+        dao.update(wquery + (aantal.get(0)+10) + " Where product_ID = 1",dao.connect(),true);
     }
+    public void writeUnrepeatable() {
+        String rquery = "Select totaal_aantal From Product Where product_ID = 1";
+
+        String wquery = "Update Product set totaal_aantal = ";
+        ArrayList<Integer> aantal = dao.read(rquery,dao.connect());
+        dao.update(wquery + (aantal.get(0)+10) + " Where product_ID = 1",dao.connect(),false);
+    }
+
 
     public String readPhantom() {
         String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
@@ -39,7 +47,7 @@ public class Person {
         String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
         String writePhantomQuery = "INSERT INTO Product(naam,product_ID, totaal_aantal) VALUES ('kfjh',2,12)";
         ArrayList<String> aantal = dao.readString(readPhantomQuery,dao.connect());
-        dao.update(writePhantomQuery, dao.connect());
+        dao.update(writePhantomQuery, dao.connect(), false);
     }
 
 
