@@ -43,19 +43,18 @@ public class Person {
     }
 
 
-    public String readPhantom() {
+    public String readPhantom(boolean commit) {
         String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
         dao.connect();
-        ArrayList<String> aantal = dao.readString(readPhantomQuery,connection);
+        ArrayList<String> aantal = dao.readString(readPhantomQuery,connection, false);
+        if (commit){
+           dao.readString(readPhantomQuery,connection, true);
+        }
         return String.valueOf(aantal.size());
-
-
     }
 
     public void writePhantom(){
-        String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
         String writePhantomQuery = "INSERT INTO Product(naam,product_ID, totaal_aantal) VALUES ('kfjh',2,12)";
-        ArrayList<String> aantal = dao.readString(readPhantomQuery,dao.connect());
         dao.update(writePhantomQuery, connection, true);
     }
 

@@ -13,7 +13,7 @@ public class PhantomRead {
             public void run() {
                 while (true) {
                     Person person = new Person();
-                    System.out.println("Thread 1: First Read: "+person.readPhantom());
+                    System.out.println("Thread 1: First Read: "+person.readPhantom(false));
 
                     // Random wachttijd
                     try {
@@ -27,7 +27,7 @@ public class PhantomRead {
                     } catch (InterruptedException e) {
                     }
 
-                    System.out.println("Thread 1: Second Read: " + person.readPhantom());
+                    System.out.println("Thread 1: Second Read: " + person.readPhantom(true));
                     person.disconnect();
 
 
@@ -40,10 +40,9 @@ public class PhantomRead {
             @Override
             public void run() {
                 while (true) {
-                    Person person = new Person();
-                    DatabaseAccessObject connection = new DatabaseAccessObject();
+                    Person person1 = new Person();
+                        // Random wachttijd
 
-                   // Random wachttijd
                     try {
                         // Genereer een getal tussen de 0 t/m 10.
                         int wachtTijd = (int) (Math.random() * 11);
@@ -55,8 +54,9 @@ public class PhantomRead {
                     } catch (InterruptedException e) {
                     }
                     System.out.println("Thread 2: Insert");
-                    person.writePhantom();
-                    person.disconnect();
+                    person1.writePhantom();
+                    person1.disconnect();
+                    break;
 
                 }
             }

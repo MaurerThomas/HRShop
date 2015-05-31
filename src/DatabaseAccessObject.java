@@ -82,13 +82,16 @@ public class DatabaseAccessObject {
         return integers;
     }
 
-    public ArrayList<String> readString(String sql, Connection connection) {
+    public ArrayList<String> readString(String sql, Connection connection, boolean commit) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<String> strings = new ArrayList<String>();
         try {
             stmt = connection.prepareStatement(sql);
             rs = stmt.executeQuery();
+            if (commit){
+                connection.commit();
+            }
 
             while (rs.next()) {
                 strings.add(rs.getString(1));
