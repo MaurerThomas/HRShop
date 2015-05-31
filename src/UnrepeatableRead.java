@@ -40,7 +40,7 @@ public class UnrepeatableRead {
                     // Random wachttijd
                     try {
                         // Genereer een getal tussen de 0 t/m 10.
-                        int wachtTijd = (int) (Math.random() * 11);
+                        int wachtTijd = (int) (Math.random() * 5);
                         System.out.println(Thread.currentThread().getName() + ": Slaap " +
                                 wachtTijd + " sec");
 
@@ -50,6 +50,18 @@ public class UnrepeatableRead {
                     }
                     System.out.println("write");
                     person2.writeUnrepeatable();
+                    // Random wachttijd
+                    try {
+                        // Genereer een getal tussen de 0 t/m 10.
+                        int wachtTijd = (int) (Math.random() * 11);
+                        System.out.println(Thread.currentThread().getName() + ": Slaap " +
+                                wachtTijd + " sec");
+
+                        // Slaap wachtTijd seconden
+                        Thread.sleep(wachtTijd * 1000);
+                    } catch (InterruptedException e) {
+                    }
+                    person2.commit();
                     person2.disconnect();
                 }
             }

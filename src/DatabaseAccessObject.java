@@ -36,14 +36,11 @@ public class DatabaseAccessObject {
             e.printStackTrace();
         }
     }
-    public void update(String sql, Connection connection, boolean dirty) {
+    public void update(String sql, Connection connection) {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.execute();
             stmt.close();
-            if(dirty) {
-                connection.commit();
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,6 +101,13 @@ public class DatabaseAccessObject {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
+        }
+    }
+    public void commit(Connection connection){
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

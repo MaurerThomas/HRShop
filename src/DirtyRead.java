@@ -25,9 +25,10 @@ public class DirtyRead {
                     }
 
                     System.out.println("Person 1 reads and writes" + person1.readDirty());
-                    person1.writeDirty(true);
+                    person1.writeDirty();
 
                     System.out.println("Person 1 after write" + person1.readDirty());
+                    person1.commit();
                     person1.disconnect();
 
                 }
@@ -41,7 +42,7 @@ public class DirtyRead {
                 while (true) {
                     Person person2 = new Person();
                     System.out.println("writeDirty");
-                    person2.writeDirty(false);
+                    person2.writeDirty();
                     // Random wachttijd
                     try {
                         // Genereer een getal tussen de 0 t/m 10.
@@ -67,6 +68,8 @@ public class DirtyRead {
                     System.out.println("rollback");
 
                     person2.rollback();
+
+                    person2.commit();
                     person2.disconnect();
                 }
             }

@@ -58,6 +58,7 @@ public class PhantomRead {
                     }
                     System.out.println("Thread 2: Insert");
                     person.writePhantom();
+                    person.commit();
                     person.disconnect();
                 }
             }
