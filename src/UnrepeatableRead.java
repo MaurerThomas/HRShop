@@ -25,7 +25,7 @@ public class UnrepeatableRead {
                     }
 
                     System.out.println("Person 1 reads" + person1.readDirty());
-
+                    person1.disconnect();
 
                 }
             }
@@ -50,6 +50,7 @@ public class UnrepeatableRead {
                     }
                     System.out.println("write");
                     person2.writeUnrepeatable();
+                    person2.disconnect();
                 }
             }
         }, "Thread 2").start();

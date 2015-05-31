@@ -29,7 +29,13 @@ public class DatabaseAccessObject {
         }
         return null;
     }
-
+    public void disconnect(Connection connection){
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void update(String sql, Connection connection, boolean dirty) {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -40,12 +46,6 @@ public class DatabaseAccessObject {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -66,7 +66,6 @@ public class DatabaseAccessObject {
             try {
                 stmt.close();
                 rs.close();
-                connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -89,7 +88,6 @@ public class DatabaseAccessObject {
             e.printStackTrace();
         } finally {
             try {
-                connection.close();
                 stmt.close();
                 rs.close();
             } catch (SQLException e) {
@@ -103,7 +101,6 @@ public class DatabaseAccessObject {
     public void rollback(Connection connection) {
         try {
             connection.rollback();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {

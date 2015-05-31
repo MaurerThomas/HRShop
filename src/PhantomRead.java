@@ -30,7 +30,7 @@ public class PhantomRead {
                     }
 
                     System.out.println("Thread 1: Second Read: "+person.readPhantom());
-
+                    person.disconnect();
 
 
                 }
@@ -58,7 +58,7 @@ public class PhantomRead {
                     }
                     System.out.println("Thread 2: Insert");
                     person.writePhantom();
-
+                    person.disconnect();
                 }
             }
         }, "Thread 2").start();

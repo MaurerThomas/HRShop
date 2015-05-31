@@ -25,7 +25,7 @@ public class DirtyRead {
                     }
 
                     System.out.println("Person 1 reads" + person1.readDirty());
-
+                    person1.disconnect();
 
                 }
             }
@@ -64,6 +64,7 @@ public class DirtyRead {
                     System.out.println("rollback");
 
                     person2.rollback();
+                    person2.disconnect();
                 }
             }
         }, "Thread 2").start();
