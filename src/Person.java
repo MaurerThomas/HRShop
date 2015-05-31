@@ -53,7 +53,6 @@ public class Person {
     }
 
     public void writePhantom(){
-        String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
         String writePhantomQuery = "INSERT INTO Product(naam,product_ID, totaal_aantal) VALUES ('kfjh',2,12)";
         //ArrayList<String> aantal = dao.readString(readPhantomQuery,dao.connect());
         dao.update(writePhantomQuery, connection);
