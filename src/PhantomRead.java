@@ -13,7 +13,7 @@ public class PhantomRead {
             public void run() {
                 while (true) {
                     Person person = new Person();
-                    System.out.println("Thread 1: First Read: "+person.readPhantom(false));
+                    System.out.println("Thread 1: First Read: "+person.readPhantom());
 
                     // Random wachttijd
                     try {
@@ -27,7 +27,8 @@ public class PhantomRead {
                     } catch (InterruptedException e) {
                     }
 
-                    System.out.println("Thread 1: Second Read: " + person.readPhantom(true));
+                    System.out.println("Thread 1: Second Read: " + person.readPhantom());
+                    person.commit();
                     person.disconnect();
 
 
@@ -55,8 +56,9 @@ public class PhantomRead {
                     } catch (InterruptedException e) {
                     }
                     System.out.println("Thread 2: Insert");
-                    person.writePhantom();
-                    person.disconnect();
+                    person1.writePhantom();
+                    person1.commit();
+                    person1.disconnect();
 
                 }
             }
