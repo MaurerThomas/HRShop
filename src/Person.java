@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Wouter on 5/29/2015.
  */
 public class Person {
-    DatabaseAccessObject connection = new DatabaseAccessObject();
+    DatabaseAccessObject dao = new DatabaseAccessObject();
 
 
     public Person() {
@@ -12,10 +13,8 @@ public class Person {
 
     public int readDirty() {
         String readDirtyQuery = "Select totaal_aantal From Product Where product_ID = 1";
-        connection.connect();
-        ArrayList<Integer> aantal = connection.read(readDirtyQuery);
+        ArrayList<Integer> aantal = dao.read(readDirtyQuery, dao.connect());
 
-        connection.disconnect();
         return aantal.get(0);
     }
 
@@ -23,18 +22,14 @@ public class Person {
         String rquery = "Select totaal_aantal From Product Where product_ID = 1";
 
         String wquery = "Update Product set totaal_aantal = ";
-        connection.connect();
-        ArrayList<Integer> aantal = connection.read(rquery);
-        connection.update(wquery + (aantal.get(0) + 10) + "Where product_ID = 1");
-
-        connection.disconnect();
+        ArrayList<Integer> aantal = dao.read(rquery,dao.connect());
+        dao.update(wquery + (aantal.get(0)+10) + " Where product_ID = 1",dao.connect());
     }
 
     public String readPhantom() {
         String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
-        connection.connect();
-        ArrayList<String> aantal = connection.readString(readPhantomQuery);
-        connection.disconnect();
+        dao.connect();
+        ArrayList<String> aantal = dao.readString(readPhantomQuery,dao.connect());
         return aantal.get(0);
 
 
@@ -43,16 +38,12 @@ public class Person {
     public void writePhantom(){
         String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
         String writePhantomQuery = "INSERT INTO Product(naam,product_ID, totaal_aantal) VALUES ('kfjh',2,12)";
-        connection.connect();
-        ArrayList<String> aantal = connection.readString(readPhantomQuery);
-        connection.update(writePhantomQuery);
-        connection.disconnect();
+        ArrayList<String> aantal = dao.readString(readPhantomQuery,dao.connect());
+        dao.update(writePhantomQuery, dao.connect());
     }
 
 
     public void rollback() {
-        connection.connect();
-        connection.rollback();
-        connection.disconnect();
+        dao.rollback(dao.connect());
     }
 }

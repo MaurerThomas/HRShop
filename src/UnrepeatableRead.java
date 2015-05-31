@@ -1,7 +1,7 @@
 /**
  * Created by Wouter on 5/29/2015.
  */
-public class DirtyRead {
+public class UnrepeatableRead {
     public static void main(String[] args) {
         // Maak en start thread 1
         new Thread(new Runnable() {
@@ -9,7 +9,7 @@ public class DirtyRead {
             public void run() {
                 while (true) {
                     Person person1 = new Person();
-                    System.out.println("Person 1 reads" + person1.readDirty());
+                    //System.out.println("Person 1 reads" + person1.read());
 
 
                     // Random wachttijd
@@ -48,22 +48,8 @@ public class DirtyRead {
                         Thread.sleep(wachtTijd * 1000);
                     } catch (InterruptedException e) {
                     }
-                    System.out.println("writeDirty");
+                    System.out.println("write");
                     person2.writeDirty();
-                    // Random wachttijd
-                    try {
-                        // Genereer een getal tussen de 0 t/m 10.
-                        int wachtTijd = (int) (Math.random() * 11);
-                        System.out.println(Thread.currentThread().getName() + ": Slaap " +
-                                wachtTijd + " sec");
-
-                        // Slaap wachtTijd seconden
-                        Thread.sleep(wachtTijd * 1000);
-                    } catch (InterruptedException e) {
-                    }
-                    System.out.println("rollback");
-
-                    person2.rollback();
                 }
             }
         }, "Thread 2").start();
