@@ -29,27 +29,35 @@ public class DatabaseAccessObject {
         }
         return null;
     }
-    public void disconnect(Connection connection){
+
+    public void disconnect(Connection connection) {
         try {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public void update(String sql, Connection connection, boolean dirty) {
+
+    public void update(String sql, Connection connection, boolean commit) {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.execute();
             stmt.close();
-            if(dirty) {
+            if (commit) {
                 connection.commit();
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public ArrayList<Integer> read(String sql , Connection connection) {
+    public ArrayList<Integer> read(String sql, Connection connection) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<Integer> integers = new ArrayList<Integer>();
@@ -66,6 +74,7 @@ public class DatabaseAccessObject {
             try {
                 stmt.close();
                 rs.close();
+                connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -88,6 +97,7 @@ public class DatabaseAccessObject {
             e.printStackTrace();
         } finally {
             try {
+                connection.close();
                 stmt.close();
                 rs.close();
             } catch (SQLException e) {
@@ -101,9 +111,10 @@ public class DatabaseAccessObject {
     public void rollback(Connection connection) {
         try {
             connection.rollback();
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
         }
     }
 }

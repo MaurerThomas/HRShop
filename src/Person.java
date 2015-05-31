@@ -1,6 +1,5 @@
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Wouter on 5/29/2015.
@@ -48,15 +47,15 @@ public class Person {
         String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
         dao.connect();
         ArrayList<String> aantal = dao.readString(readPhantomQuery,connection);
-        return aantal.get(0);
+        return String.valueOf(aantal.size());
 
 
     }
 
     public void writePhantom(){
-        //String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
+        String readPhantomQuery = "Select * from Product Where totaal_aantal BETWEEN 10 AND 30";
         String writePhantomQuery = "INSERT INTO Product(naam,product_ID, totaal_aantal) VALUES ('kfjh',2,12)";
-        //ArrayList<String> aantal = dao.readString(readPhantomQuery,dao.connect());
+        ArrayList<String> aantal = dao.readString(readPhantomQuery,dao.connect());
         dao.update(writePhantomQuery, connection, true);
     }
 
