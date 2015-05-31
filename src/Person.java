@@ -27,12 +27,12 @@ public class Person {
         return aantal.get(0);
     }
 
-    public void writeDirty() {
+    public void writeDirty(boolean dirty) {
         String rquery = "Select totaal_aantal From Product Where product_ID = 1";
 
         String wquery = "Update Product set totaal_aantal = ";
         ArrayList<Integer> aantal = dao.read(rquery,dao.connect());
-        dao.update(wquery + (aantal.get(0)+10) + " Where product_ID = 1",connection,false);
+        dao.update(wquery + (aantal.get(0)+10) + " Where product_ID = 1",connection,dirty);
     }
     public void writeUnrepeatable() {
         String rquery = "Select totaal_aantal From Product Where product_ID = 1";
