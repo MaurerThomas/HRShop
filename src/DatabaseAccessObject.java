@@ -16,17 +16,19 @@ public class DatabaseAccessObject {
     private Connection connection;
 
 
-    public void connect(){
+    public void connect() {
         try {
             Class.forName(driver).newInstance();
-            connection = DriverManager.getConnection(url + dbName , userName, password);
+            connection = DriverManager.getConnection(url + dbName, userName, password);
+            connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void disconnect(){
+
+    public void disconnect() {
 
         try {
             connection.close();
@@ -35,13 +37,15 @@ public class DatabaseAccessObject {
         }
 
     }
-    public void update(String sql){
+
+    public void update(String sql) {
         try {
             connection.prepareStatement(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public ArrayList<Integer> read(String sql) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -64,7 +68,8 @@ public class DatabaseAccessObject {
         }
         return integers;
     }
-    public void rollback(){
+
+    public void rollback() {
         try {
             connection.rollback();
         } catch (SQLException e) {

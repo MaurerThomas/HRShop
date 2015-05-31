@@ -9,7 +9,7 @@ public class DirtyRead {
             public void run() {
                 while (true) {
                     Person person1 = new Person();
-                    System.out.println("Person 1 reads"+person1.read());
+                    System.out.println("Person 1 reads" + person1.read());
 
 
                     // Random wachttijd
@@ -24,7 +24,7 @@ public class DirtyRead {
                     } catch (InterruptedException e) {
                     }
 
-                    System.out.println("Person 1 reads"+person1.read());
+                    System.out.println("Person 1 reads" + person1.read());
 
 
                 }
@@ -48,6 +48,7 @@ public class DirtyRead {
                         Thread.sleep(wachtTijd * 1000);
                     } catch (InterruptedException e) {
                     }
+                    System.out.println("write");
                     person2.write();
                     // Random wachttijd
                     try {
