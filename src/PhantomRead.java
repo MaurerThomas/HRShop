@@ -4,7 +4,6 @@
 public class PhantomRead {
 
 
-
     public static void main(String[] args) {
         // Maak en start thread 1
 
@@ -13,7 +12,7 @@ public class PhantomRead {
             public void run() {
                 while (true) {
                     Person person = new Person();
-                    System.out.println("Thread 1: First Read: "+person.readPhantom());
+                    System.out.println("Thread 1: First Read: " + person.readPhantom());
 
                     // Random wachttijd
                     try {
@@ -42,9 +41,7 @@ public class PhantomRead {
             public void run() {
                 while (true) {
                     Person person1 = new Person();
-                        // Random wachttijd
-
-                   // Random wachttijd
+                    // Random wachttijd
                     try {
                         // Genereer een getal tussen de 0 t/m 10.
                         int wachtTijd = (int) (Math.random() * 11);

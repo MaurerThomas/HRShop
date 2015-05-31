@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public class DatabaseAccessObject {
 
-    public static final String query = "SELECT * FROM product";
     private String url = "jdbc:mysql://localhost:3306/";
     private String dbName = "hrshop";
     private String driver = "com.mysql.jdbc.Driver";
@@ -29,13 +28,15 @@ public class DatabaseAccessObject {
         }
         return null;
     }
-    public void disconnect(Connection connection){
+
+    public void disconnect(Connection connection) {
         try {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public void update(String sql, Connection connection) {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -46,7 +47,7 @@ public class DatabaseAccessObject {
         }
     }
 
-    public ArrayList<Integer> read(String sql , Connection connection) {
+    public ArrayList<Integer> read(String sql, Connection connection) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<Integer> integers = new ArrayList<Integer>();
@@ -102,7 +103,8 @@ public class DatabaseAccessObject {
             e.printStackTrace();
         }
     }
-    public void commit(Connection connection){
+
+    public void commit(Connection connection) {
         try {
             connection.commit();
         } catch (SQLException e) {
