@@ -100,7 +100,6 @@ public class DatabaseAccessObject {
             connection.rollback();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
         }
     }
     public void commit(Connection connection){
