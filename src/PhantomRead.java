@@ -1,5 +1,3 @@
-import java.sql.SQLException;
-
 /**
  * Created by Thomas on 31-5-2015.
  */
@@ -32,11 +30,7 @@ public class PhantomRead {
                     }
 
                     System.out.println("Thread 1: Second Read: "+person.readPhantom());
-                    try {
-                        connection.connection.commit();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
 
 
                 }
@@ -64,11 +58,7 @@ public class PhantomRead {
                     }
                     System.out.println("Thread 2: Insert");
                     person.writePhantom();
-                    try {
-                        connection.connection.commit();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
         }, "Thread 2").start();
