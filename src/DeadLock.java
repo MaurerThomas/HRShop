@@ -4,27 +4,33 @@
 public class DeadLock {
 
 
-    public static final Object Lock1 = new Object();
-    public static final Object Lock2 = new Object();
-
-    public static void main(String args[]) {
-
+    public static void main(String[] args) {
         // Maak en start thread 1
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                synchronized (Lock1) {
-                    System.out.println("Thread 1: Holding lock 1...");
+                while (true) {
+                    Person person = new Person();
+                    person.createNewProduct();
+                    person.commit();
+                    System.out.println("Check Result from insert" + person.createShareLock());
+
+                    // Random wachttijd
                     try {
-                        Thread.sleep(10);
+
+
+                        // Slaap wachtTijd seconden
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                     }
-                    System.out.println("Thread 1: Waiting for lock 2...");
-                    synchronized (Lock2) {
-                        System.out.println("Thread 1: Holding lock 1 & 2...");
-                    }
-                }
+                    System.out.println("Person A trying to delete row");
+                    person.deleteRowPersonA();
+                    person.commit();
+                    person.disconnect();
+                    break;
 
+                }
             }
         }, "Thread 1").start();
 
@@ -32,20 +38,26 @@ public class DeadLock {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                synchronized (Lock2) {
-                    System.out.println("Thread 2: Holding lock 2...");
+                while (true) {
+                    Person person1 = new Person();
+                    // Random wachttijd
                     try {
-                        Thread.sleep(10);
+                       // Slaap wachtTijd seconden
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                     }
-                    System.out.println("Thread 2: Waiting for lock 1...");
-                    synchronized (Lock1) {
-                        System.out.println("Thread 2: Holding lock 1 & 2...");
-                    }
+
+                    System.out.println("Person B trying to delete row");
+                    person1.deleteRowPersonB();
+                    person1.commit();
+                    person1.disconnect();
+                    break;
+
                 }
             }
         }, "Thread 2").start();
     }
+
 }
 
 

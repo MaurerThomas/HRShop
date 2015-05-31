@@ -56,8 +56,33 @@ public class Person {
     }
 
     public void writePhantom() {
-        String writePhantomQuery = "INSERT INTO Product(naam,product_ID, totaal_aantal) VALUES ('kfjh',2,12)";
+        String writePhantomQuery = "INSERT INTO verandering(verandering_ID,omschrijving,invoerdatum,totaal_verandering,product_ID) VALUES ('kfjh',2,12)";
         dao.update(writePhantomQuery, connection);
+    }
+
+
+    public String createShareLock(){
+
+        String readLockQuery = "SELECT * from Product Where product_ID = 4 LOCK IN SHARE MODE" ;
+
+        ArrayList<String> aantal = dao.readString(readLockQuery, connection);
+        return String.valueOf(aantal);
+    }
+
+    public void createNewProduct(){
+        String createSLockQuery = "INSERT INTO Product(naam,product_ID, totaal_aantal) VALUES ('deadlock',4,14)";
+        dao.update(createSLockQuery,connection);
+
+    }
+
+    public void deleteRowPersonB(){
+        String deleteRowQueryB = "DELETE from Product Where product_ID = 4";
+        dao.update(deleteRowQueryB,connection);
+    }
+
+    public void deleteRowPersonA(){
+        String deleteRowQueryA = "DELETE from Product Where product_ID = 4";
+        dao.update(deleteRowQueryA,connection);
     }
 
 
