@@ -13,7 +13,7 @@ public class DatabaseAccessObject {
     private String driver = "com.mysql.jdbc.Driver";
     private String userName = "root";
     private String password = "";
-    private Connection connection;
+    public Connection connection;
 
 
     public void connect() {
@@ -53,6 +53,7 @@ public class DatabaseAccessObject {
         try {
             stmt = connection.prepareStatement(sql);
             rs = stmt.executeQuery();
+
             while (rs.next()) {
                 integers.add(rs.getInt(1));
             }
@@ -68,6 +69,31 @@ public class DatabaseAccessObject {
         }
         return integers;
     }
+
+    public ArrayList<String> readString(String sql) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<String> strings = new ArrayList<String>();
+        try {
+            stmt = connection.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                strings.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return strings;
+    }
+
 
     public void rollback() {
         try {

@@ -1,16 +1,23 @@
+import java.sql.SQLException;
+
 /**
- * Created by Wouter on 5/29/2015.
+ * Created by Thomas on 31-5-2015.
  */
-public class DirtyRead {
+public class PhantomRead {
+
+
+
     public static void main(String[] args) {
         // Maak en start thread 1
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                    Person person1 = new Person();
-                    System.out.println("Person 1 reads" + person1.readDirty());
+                    Person person = new Person();
+                    DatabaseAccessObject connection = new DatabaseAccessObject();
 
+                    System.out.println("Thread 1: First Read: "+person.readPhantom());
 
                     // Random wachttijd
                     try {
@@ -24,7 +31,12 @@ public class DirtyRead {
                     } catch (InterruptedException e) {
                     }
 
-                    System.out.println("Person 1 reads" + person1.readDirty());
+                    System.out.println("Thread 1: Second Read: "+person.readPhantom());
+                    try {
+                        connection.connection.commit();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
 
                 }
@@ -36,8 +48,10 @@ public class DirtyRead {
             @Override
             public void run() {
                 while (true) {
-                    Person person2 = new Person();
-                    // Random wachttijd
+                    Person person = new Person();
+                    DatabaseAccessObject connection = new DatabaseAccessObject();
+
+                   // Random wachttijd
                     try {
                         // Genereer een getal tussen de 0 t/m 10.
                         int wachtTijd = (int) (Math.random() * 11);
@@ -48,22 +62,17 @@ public class DirtyRead {
                         Thread.sleep(wachtTijd * 1000);
                     } catch (InterruptedException e) {
                     }
-                    System.out.println("writeDirty");
-                    person2.writeDirty();
-                    // Random wachttijd
+                    System.out.println("Thread 2: Insert");
+                    person.writePhantom();
                     try {
-                        // Genereer een getal tussen de 0 t/m 10.
-                        int wachtTijd = (int) (Math.random() * 11);
-                        System.out.println(Thread.currentThread().getName() + ": Slaap " +
-                                wachtTijd + " sec");
-
-                        // Slaap wachtTijd seconden
-                        Thread.sleep(wachtTijd * 1000);
-                    } catch (InterruptedException e) {
+                        connection.connection.commit();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
-                    person2.rollback();
                 }
             }
         }, "Thread 2").start();
     }
+
+
 }
